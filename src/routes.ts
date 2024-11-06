@@ -6,6 +6,11 @@ import pino from 'pino';
 const router = Router();
 const logger = pino();
 
+// Health Route
+router.get('/health', (req: Request, res: Response) => {
+    res.json({ message: 'Status Up!' });
+})
+
 // Route to index files
 router.get('/api/index-files', async (req: Request, res: Response) => {
     try {
