@@ -1,4 +1,3 @@
-// app.ts
 import express from 'express';
 import cors from 'cors';
 import pino from 'pino';
@@ -12,7 +11,7 @@ const PORT = process.env.SERVICE_PORT || 3000;
 const app = express();
 
 // Logger configuration
-const logger = pino({
+export const logger = pino({
     level: process.env.LOG_LEVEL || 'info',
     transport: {
         target: 'pino-pretty',

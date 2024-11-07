@@ -1,5 +1,6 @@
 import axios from "axios";
 import { DropboxFile } from "./types";
+import { logger } from "../app";
 
 export const DROPBOX_API_URL = "https://api.dropboxapi.com/2";
 export const DROPBOX_CONTENT_URL = "https://content.dropboxapi.com/2";
@@ -39,7 +40,7 @@ export const getPublicUrl = async (path: string): Promise<string | null> => {
 
         return formatPublicUrl(data.url);
     } catch (error: any) {
-        console.error(`Error generating public URL for ${path}:`, error?.response?.data || error?.message);
+        logger.error(`Error generating public URL for ${path}:`, error?.response?.data || error?.message);
         return null;
     }
 };
@@ -62,7 +63,7 @@ export const handleFileContent = (data: ArrayBuffer, fileType: string): string =
     if (fileType === 'txt') {
         return Buffer.from(data).toString('utf8');
     } else {
-        console.warn('File type handling yet to be implemented for:', fileType);
+        logger.warn('File type handling is not supported for:', fileType);
         return '';
     }
 };

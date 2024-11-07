@@ -1,5 +1,5 @@
 import { SearchResponse } from '@elastic/elasticsearch/lib/api/types';
-import { elasticClient } from '../app';
+import { elasticClient, logger } from '../app';
 import { DropboxFile } from '../dropbox/types';
 import { FileIndex } from './types';
 import { createDocument, extractSearchResults, INDEX, validateQuery } from './helper';
@@ -11,9 +11,9 @@ export const indexFileContent = async (fileData: DropboxFile, content: string): 
 
     try {
         await elasticClient.index(document);
-        console.log(`Successfully indexed file: ${fileData.name}`);
+        logger.info(`Successfully indexed file: ${fileData.name}`);
     } catch (error: any) {
-        console.error("Error indexing file content: ", error?.message);
+        logger.error("Error indexing file content: ", error?.message);
         throw new Error("Indexing failed for the file.");
     }
 };
@@ -34,7 +34,7 @@ export const searchFiles = async (query: string): Promise<FileIndex[]> => {
 
         return extractSearchResults(response);
     } catch (error: any) {
-        console.error("Error searching files: ", error?.message);
+        logger.error("Error searching files: ", error?.message);
         throw new Error("Search operation failed.");
     }
 };

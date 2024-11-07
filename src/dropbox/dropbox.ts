@@ -2,6 +2,7 @@ import axios from 'axios';
 import 'dotenv/config';
 import { ACCESS_TOKEN, DROPBOX_API_URL, DROPBOX_CONTENT_URL, getPublicUrl, handleFileContent, mapDropboxFile } from './helper';
 import { DropboxFile } from './types';
+import { logger } from '../app';
 
 const getCommonHeaders = () => ({
     "Authorization": `Bearer ${ACCESS_TOKEN}`,
@@ -22,7 +23,7 @@ export const listDropboxFiles = async (): Promise<DropboxFile[]> => {
 
         return filesWithLinks;
     } catch (error: any) {
-        console.error("Error listing Dropbox files:", error?.response?.data || error?.message);
+        logger.error("Error listing Dropbox files:", error?.response?.data || error?.message);
         throw new Error("Failed to list Dropbox files");
     }
 };
@@ -42,7 +43,7 @@ export const downloadFileContent = async (fileId: string, fileType: string): Pro
 
         return handleFileContent(response.data, fileType);
     } catch (error: any) {
-        console.error('Error downloading file content:', error?.response?.data || error?.message);
+        logger.error('Error downloading file content:', error?.response?.data || error?.message);
         throw new Error(`Failed to download content for file: ${fileId}`);
     }
 };
